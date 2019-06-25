@@ -1,0 +1,13 @@
+.header {
+  background-color: #0aaecb;
+  text-align: center;
+  color: white;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-style: normal;
+}
+
+.dashboard{
+  background-color: #0aaecb;
+  color: white;
+  text-align: center
+}

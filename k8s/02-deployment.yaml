@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: fappdep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: fapp
+    spec:
+      containers:
+      - name: fappc
+        image: balanus/fapp:v1
+      ports:
+      - name:  contanierPort
+        containerPort:  3000
+        protocol: TCP
