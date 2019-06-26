@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
 import './dashboard.css';
 import Price from './Price';
+import Graph from './Graph';
 
 class Dashboard extends Component {
 
+  // URL_SYMBOL = 'http://localhost:5000/symbols'
+  // URL_PRICE = 'http://localhost:5000/price'
+  // URL_HISTORY = 'http://localhost:5000/history'
+
   URL_SYMBOL = '/symbols'
   URL_PRICE = '/price'
+  URL_HISTORY = '/history'
 
   constructor(props) {
     super(props);
@@ -14,12 +20,15 @@ class Dashboard extends Component {
       fromSymbol: 'USD',
       toSymbol: 'SGD',
       symbols: [],
-      result: ''
+      result: '',
+      history: []
     };
 
     this.handleChangeFrom = this.handleChangeFrom.bind(this);
     this.handleChangeTo = this.handleChangeTo.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.gethistory = this.gethistory.bind(this);
+    this.getlatestprice = this.getlatestprice.bind(this);
 
   }
 
@@ -39,10 +48,12 @@ class Dashboard extends Component {
   handleChangeFrom(event) {
     this.setState({fromSymbol: event.target.value});
     this.getlatestprice()
+    this.gethistory()
   }
   handleChangeTo(event) {
     this.setState({toSymbol: event.target.value});
     this.getlatestprice()
+    this.gethistory()
   }
 
   getlatestprice(){
@@ -56,8 +67,22 @@ class Dashboard extends Component {
       })
   }
 
+  gethistory(){
+    fetch(`${this.URL_HISTORY}?fsym=${this.state.fromSymbol}&tsym=${this.state.toSymbol}&limit=1000`)
+      .then(resp => resp.json())
+      .then((data) => {
+        let records = data["Data"]
+        
+        this.setState( { history: records })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   handleSubmit(event) {
     this.getlatestprice()
+    this.gethistory()
     event.preventDefault();
   }
 
@@ -92,6 +117,10 @@ class Dashboard extends Component {
         </form>
         
         <Price fromSymbol={this.state.fromSymbol} toSymbol={this.state.toSymbol} price={this.state.result}> </Price>
+        
+        <div className="graph">
+          <Graph data={this.state.history} > </Graph>
+        </div>
       </div>
     );
   }

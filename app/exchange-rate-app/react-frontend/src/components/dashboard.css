@@ -2,3 +2,9 @@
     border: 3px rgb(6, 52, 58) solid;
     padding-bottom: 10px;
 }
+
+.dashbox > .graph{
+    border: 3px rgb(36, 1, 1) solid;
+    background-color: white;
+    margin: 50px;
+}

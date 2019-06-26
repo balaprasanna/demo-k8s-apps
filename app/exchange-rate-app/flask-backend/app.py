@@ -32,19 +32,42 @@ def getprice():
     resp = get_price(from_ , to_)
     return SendResponse(resp)
 
+@app.route("/history")
+def gethistory():
+    fsym = request.args.get("fsym", "USD")
+    tsym = request.args.get("tsym", "SGD")
+    limit = request.args.get("limit", "30")
+    resp = get_history(**request.args)
+    return SendResponse(resp)
+
 ######### UTIS Begins ############
 
 url_tpl = "https://min-api.cryptocompare.com/data/price?fsym={}&tsyms={}"
 mapping_url = f"https://min-api.cryptocompare.com/data/pair/mapping/fsym?fsym=BTC&api_key={APIKEY}"
+# histoday_ref = "https://min-api.cryptocompare.com/data/histoday?fsym={}&tsym={}&limit={}"
+histoday_url = "https://min-api.cryptocompare.com/data/histoday?"
 
 def get_all_symbols():
-    resp = requests.get(mapping_url).json()    
+    resp = requests.get(mapping_url).json()
     symbols = list(pd.DataFrame(resp['Data']).tsym.unique()) + ["BTC"]
     return symbols
     
 def get_price(from_="BTC" , to_="USD"):
     url = url_tpl.format(from_ , to_ )
     return requests.get(url).json()
+
+def get_history(**kwgs):
+    q_string = dict_to_querystring(kwgs)
+    url = histoday_url + q_string
+    print(url)
+    return requests.get(url).json()
+
+def dict_to_querystring(kwgs):
+    q_string = ""
+    for k,v in kwgs.items():
+        q_string = q_string + f"{k}={v}&"
+    q_string = q_string[:-1] #remove the last &    
+    return q_string
 
 def SendResponse(resp, status=200, content_type="application/json"):
     resp = json.dumps( resp )

@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  exappv1svc
+spec:
+  selector:
+    name:  exappv1
+  type:  ClusterIP
+  ports:
+  - name:  exapp-container-port
+    port:  80
+    targetPort:  5000

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: exappv1-only-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: exappv1.157.230.196.217.nip.io
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: exappv1svc
+            servicePort: 80
+        
