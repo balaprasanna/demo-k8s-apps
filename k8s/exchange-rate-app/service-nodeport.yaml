@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  exappsvc
+spec:
+  selector:
+    name:  exapp
+  type:  NodePort
+  ports:
+  - name:  exapp-container-port
+    port:  80
+    targetPort:  5000

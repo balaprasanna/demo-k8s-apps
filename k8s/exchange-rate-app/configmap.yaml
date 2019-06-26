@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: exappcmp
+  labels:
+    name: exapp
+data:
+  my-api-key: "50e5dc615514f767e6570da2787f5a57462bce321dac874e8bd5cd06a1fc66c2"
