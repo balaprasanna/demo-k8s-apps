@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  fappsvc
+spec:
+  selector:
+    app:  fapp
+  type:  ClusterIP
+  ports:
+  - name:  fapp-port
+    port:  8080
+    targetPort:  3000

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fapp-only-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: fapp.157.230.196.217.nip.io
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: fappsvc
+            servicePort: 8080
+        

@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: mix-both-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: mix.157.230.196.217.nip.io
+    http:
+      paths:
+        - path: /app1
+          backend:
+            serviceName: fappsvc
+            servicePort: 8080
+        - path: /app2
+          backend:
+            serviceName: exappsvc
+            servicePort: 80
+        - path: /
+          backend:
+            serviceName: exappsvc
+            servicePort: 80
+        
