@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  name: bggdbpvc
+  annotations:
+    volume.beta.kubernetes.io/storage-provisioner: "dobs.csi.digitalocean.com"
+
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: do-block-storage

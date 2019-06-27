@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  bggdbsvc
+spec:
+  selector:
+    name:  bggdb
+  type:  ClusterIP
+  ports:
+  - name:  bggdbsvcport
+    port:  3306
+    targetPort:  bggdbport

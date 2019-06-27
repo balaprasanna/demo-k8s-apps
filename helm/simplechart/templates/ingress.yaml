@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "simplechart.fullname" . }}
+  labels:
+{{ include "simplechart.labels" . | indent 4 }}
+  annoations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /
+        backend: 
+          serviceName: {{ include "simplechart.fullname" . }}
+          servicePort: {{ .Values.service.port }} 

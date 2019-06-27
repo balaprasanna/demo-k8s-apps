@@ -1,0 +1,17 @@
+replicaCount: 1
+
+image:
+  repository: balanus/fapp
+  tag: v1
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: NodePort
+  port: 80
+
+ingress:
+  host: 'simple.157.230.196.217.nip.io'

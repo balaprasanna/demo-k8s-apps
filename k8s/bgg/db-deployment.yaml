@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name:  bggdb
+  labels:
+    name:  bggdb
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name:  bggdb
+    spec:
+      volumes:
+      - name: volume1
+        persistentVolumeClaim:
+          claimName: bggdbpvc
+      initContainers:
+         - name: mydb-vol-scrub
+           image: busybox
+           command: ["/bin/sh", "-c", "test -e /scrub && rm -rf /scrub/..?* /scrub/.[!.]* /scrub/*  && test -z \"$(ls -A /scrub)\" || exit 1"]
+           volumeMounts:
+           - name: volume1
+             mountPath: /scrub
+      containers:
+      - image:  balanus/bgg-db
+        name:  bggdb
+        ports:
+        - containerPort:  3306
+          name:  bggdbport
+        imagePullPolicy: Always
+        volumeMounts:
+          - name:  volume1
+            mountPath:  /var/lib/mysql
+      restartPolicy: Always  

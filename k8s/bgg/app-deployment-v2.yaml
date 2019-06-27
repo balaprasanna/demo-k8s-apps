@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name:  bggappv2
+  labels:
+    name:  bggappv2
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name:  bggappv2
+    spec:
+      containers:
+      - image:  balanus/bgg-app:v2
+        name:  bggappv2
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100M"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: bggappport
+          initialDelaySeconds: 90
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: bggappport
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        env:
+        - name:  BGG_DB_HOST
+          value:  bggdbsvc.default.svc.cluster.local
+        ports:
+        - containerPort:  3000
+          name:  bggappport
+        imagePullPolicy: Always
+      restartPolicy: Always

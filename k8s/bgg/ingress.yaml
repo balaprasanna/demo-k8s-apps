@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bggapp-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /v1
+        backend: 
+          serviceName: bggappsvc
+          servicePort: 80
+      - path: /
+        backend: 
+          serviceName: bggappv2svc
+          servicePort: 8080
+      

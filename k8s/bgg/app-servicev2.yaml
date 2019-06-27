@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  bggappv2svc
+spec:
+  selector:
+    name:  bggappv2
+  type:  NodePort
+  ports:
+  - name:  bggappv2svc-port
+    port:  8080
+    targetPort:  bggappport
